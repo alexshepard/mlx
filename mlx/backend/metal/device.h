@@ -110,6 +110,12 @@ struct CommandEncoder {
 
 class Device {
  public:
+  enum Category {
+    small = 0,
+    medium = 1,
+    large = 2,
+  };
+
   Device();
   Device(const Device&) = delete;
   Device& operator=(const Device&) = delete;
@@ -119,6 +125,9 @@ class Device {
     return device_;
   };
 
+  Category category() {
+    return category_;
+  };
   void new_queue(int index);
   MTL::CommandBuffer* new_command_buffer(int index);
   MTL::CommandBuffer* get_command_buffer(int index);
@@ -211,6 +220,7 @@ class Device {
   std::unordered_map<std::string, MTL::ComputePipelineState*> kernel_map_;
   std::unordered_map<std::string, MTL::Library*> library_map_;
   std::mutex mtx_;
+  Category category_;
 };
 
 Device& device(mlx::core::Device);
